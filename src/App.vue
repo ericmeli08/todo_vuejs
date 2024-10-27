@@ -9,29 +9,16 @@
       <main>
 
         <h1 class="text-2xl font-800 my-8">TODO-LIST</h1>
-        <h2 class="text-xl font-500 my-5" v-if="tasks.length == 0"> Vous navez aucune tache a faire </h2>
+        <h2 class="text-xl font-500 my-5" v-if="tasks.length == 0"> Vous navez aucune tache a faire !</h2>
         <ul>
           <li v-for="task in sorted" :key="task.date" :class="{ 'opacity-50': task.completed }" class="flex items-center ">
             <span :class="{ 'line-through': task.completed }">{{ task.title }}</span>
-            <input type="checkbox" v-model="task.completed" :id="`checkbox-${task.date}`" class="hidden" />
-            <label :for="`checkbox-${task.date}`" class="flex items-center cursor-pointer  ">
-              <div class="w-8 h-8 border-2  border-gray-300 rounded grid place-items-center "
-                :class="{ 'bg-blue-500': task.completed }">
-                <span v-if="task.completed" class="text-white font-bold text-lg w-fit h-fit m-0">✓</span>
-              </div>
-            </label>
+            <checkbox v-model="task.completed"  :id="`checkbox-${task.date}`"  />
             <button @click="deleteTask(task)">supprimer</button>
           </li>
         </ul>
         <div>
-          <input type="checkbox" v-model="taskDone" :id="`checkbox`" class="hidden" />
-            <label :for="`checkbox`" class="flex items-center cursor-pointer">
-              <div class="w-8 h-8 border-2  border-gray-300 rounded grid place-items-center mr-5 "
-                :class="{ 'bg-blue-500': taskDone }">
-                <span v-if="taskDone" class="text-white font-bold text-lg w-fit h-fit m-0">✓</span>
-              </div>
-            <span class="text-xl font-bold"> Cachee les taches effectuer</span>
-          </label>
+          <checkbox v-if="tasks.length != 0" v-model="taskDone" label="Cachee les taches effectuer" />
         </div>
         <p class="text-xl font-bold" v-if="remain > 0"> {{ remain }} tache{{ remain > 1 ? 's' : '' }} a faire</p>
 
@@ -46,6 +33,7 @@
 <script setup>
 
 import { ref, computed } from 'vue'
+import checkbox from './checkbox.vue';
 
 
 const taskDone = ref(false)
